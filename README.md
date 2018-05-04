@@ -12,13 +12,15 @@
 **Android studio**：新建一个项目，新建两个application  module，目的是用这两个app进行测试通信（以下称
     app1  和  app2 ）。
 
-**一**、两个module中新建包名和文件名都一样的aidl文件，本项目是IRemoteService.aidl，名称和包名不一样的话两边都会找不到服务。
+**一**、两个module中新建包名和文件名都一样的aidl文件，本项目是IRemoteService.aidl，名称和包名不一样的话两
+边都会找不到服务。
     
 **二**、如果要通过服务传递自定义对象的话，那么也需要定义该对象的aidl文件，本项目定义了UserMessage.aidl，和IRemoteService.aidl一样，在两个module中包名和文件名都一样。
     
 **三**、两个module 中新建UserMessage.java（也可以是其他语言对象，看你用的是什么语言了，比如可以是UserMessage.kt）,也需要时一样的包名和文件名。
     
-**四**、接下来就是写activity和service了，aidl.im.one中新建MainActivity和RemoteService类，位置和名称就随便了。
+**四**、接下来就是写activity和service了，aidl.im.one中新建MainActivity和RemoteService类，位置和名称就
+随便了。
     
 	*（1）*MainActivity
         1） onCreate方法就可以直接注册本app（app1）接受消息的服务
@@ -27,7 +29,14 @@
                             "com.chaoya.aidlimone.RemoteService"));
             bindService(intent2, mConnection2, Context.BIND_AUTO_CREATE);
 
-            在发送消息的方法里判断app2的服务有没有连接上，没连接上的话就去连接绑定，之所以没有也在onCreate方法中绑定是因为同一个手机中没法同时点击打开两个app，若是在onCreate中绑定的话，就会找不到服务，导致绑定失败，因为app2还没启动，同样其服务也没启动，所以是连接不成功的；可能有人会问，为什么不先把app2启动？如果先把app2启动的话，app1启动时确实可以连接上app2的服务，并且app1的接受消息的服务也绑定成功，app1算是没问题了，但是app2呢，app2是没有连接上app1的服务的，道理和先启动app1是一样的，不再赘述；这个时候想让app2也连接上app1的服务，就需要app2重启，但是问题又来了，若app2重启了，那么app2自己的接受消息的服务也会重新绑定初始化，对象会变哦，内存地址都不一样了，这时候app1持有的还是那个一样不存在的服务，如果这时app1调用发送消息服务，那么就会报错，什么错呢，就是Android的android.os.DeadObjectException异常。
+            在发送消息的方法里判断app2的服务有没有连接上，没连接上的话就去连接绑定，之所以没有也在onCreate方法中绑定是因为同一个手机中没法同时点击打开两个app，若是在onCreate中绑定的话，就会
+			找不到服务，导致绑定失败，因为app2还没启动，同样其服务也没启动，所以是连接不成功的；可能有人
+			会问，为什么不先把app2启动？如果先把app2启动的话，app1启动时确实可以连接上app2的服务，并且
+			app1的接受消息的服务也绑定成功，app1算是没问题了，但是app2呢，app2是没有连接上app1的服务的，
+			道理和先启动app1是一样的，不再赘述；这个时候想让app2也连接上app1的服务，就需要app2重启，但是
+			问题又来了，若app2重启了，那么app2自己的接受消息的服务也会重新绑定初始化，对象会变哦，内存地
+			址都不一样了，这时候app1持有的还是那个一样不存在的服务，如果这时app1调用发送消息服务，那么就
+			会报错，什么错呢，就是Android的android.os.DeadObjectException异常。
 
         2）在发送点击事件中绑定app2的服务
             Intent intent1 = new Intent().setComponent(new ComponentName(
@@ -94,7 +103,8 @@
         1）定义一个内部类供本app调用
             public class InnerIBinder extends IRemoteService.Stub {
                 @Override
-                public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+                public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
+						 double aDouble, String aString) throws RemoteException {
 
                 }
                 @Override
