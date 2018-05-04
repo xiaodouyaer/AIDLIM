@@ -1,19 +1,29 @@
-aidl.im.one 和 aidl.im.two这两个module是利用aidl实现的两个可以聊天的app，不过是装在同一个手机上的
+
+**如果你闲着没事儿干，那么你可以学习这个项目，自己可以玩的很开心。**
+
+    aidl.im.one 和 aidl.im.two这两个module是利用aidl实现的两个可以聊天的app，不过是装在同一个手机上的
     适合超级无聊之人自己和自己聊天使用。
 
-AIDL :Android interface definition language，Android 接口描述语言。
-Android studio：新建一个项目，新建两个application  module，目的是用这两个app进行测试通信（以下称
+*二话不说，看我上图*
+
+![无聊聊天图](https://i.imgur.com/MEUw47p.gif)
+
+**AIDL** :Android interface definition language，Android 接口描述语言。
+**Android studio**：新建一个项目，新建两个application  module，目的是用这两个app进行测试通信（以下称
     app1  和  app2 ）。
 
-一、两个module中新建包名和文件名都一样的aidl文件，本项目是IRemoteService.aidl，名称和包名不一样的话
+**一**、两个module中新建包名和文件名都一样的aidl文件，本项目是IRemoteService.aidl，名称和包名不一样的话
     两边都会找不到服务。
-二、如果要通过服务传递自定义对象的话，那么也需要定义该对象的aidl文件，本项目定义了UserMessage.aidl，
+    
+**二**、如果要通过服务传递自定义对象的话，那么也需要定义该对象的aidl文件，本项目定义了UserMessage.aidl，
     和IRemoteService.aidl一样，在两个module中包名和文件名都一样。
-三、两个module 中新建UserMessage.java（也可以是其他语言对象，看你用的是什么语言了，比如可以是UserMe
+    
+**三**、两个module 中新建UserMessage.java（也可以是其他语言对象，看你用的是什么语言了，比如可以是UserMe
     ssage.kt）,也需要时一样的包名和文件名。
-四、接下来就是写activity和service了，aidl.im.one中新建MainActivity和RemoteService类，位置和名称就随
+    
+**四**、接下来就是写activity和service了，aidl.im.one中新建MainActivity和RemoteService类，位置和名称就随
     便了。
-    （1）MainActivity
+    *（1）*MainActivity
         1） onCreate方法就可以直接注册本app（app1）接受消息的服务
             Intent intent2 = new Intent().setComponent(new ComponentName(
                             "com.chaoya.aidlimone",
@@ -91,7 +101,7 @@ Android studio：新建一个项目，新建两个application  module，目的�
             });
 
             这里通过回调的方式去获取了service收到的消息，我这里是直接加入集合并展示了。
-    （2）RemoteService，继承自android.app.Service
+    *（2）*RemoteService，继承自android.app.Service
         1）定义一个内部类供本app调用
             public class InnerIBinder extends IRemoteService.Stub {
                 @Override
@@ -108,7 +118,7 @@ Android studio：新建一个项目，新建两个application  module，目的�
                 }
             }
 
-        2）onBind方法中直接返回new InnerIBinder();
+        2）onBind方法中直接返回new InnerIBinder(); 
         3）定义一个回调接口
             public interface CallBack{
                 void showMessage(UserMessage message);
@@ -118,6 +128,7 @@ Android studio：新建一个项目，新建两个application  module，目的�
                 this.callBack = callBack;
             }
 
-五、app2的代码和app1几乎一样，除了调用服务的包名外。
+**五**、app2的代码和app1几乎一样，除了调用服务的包名外。
 
-六、本着真正开源的精神，代码上传GitHub了，特讨厌把代码传C**N，下载还要钱，不喜欢，地址如下：
+**六**、本着真正开源的精神，代码上传GitHub了，特讨厌把代码传C**N，下载还要钱，不喜欢，地址如下：
+		[https://github.com/xiaodouyaer/AIDLIM](https://github.com/xiaodouyaer/AIDLIM)
