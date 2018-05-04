@@ -29,7 +29,8 @@
                             "com.chaoya.aidlimone.RemoteService"));
             bindService(intent2, mConnection2, Context.BIND_AUTO_CREATE);
 
-            在发送消息的方法里判断app2的服务有没有连接上，没连接上的话就去连接绑定，之所以没有也在onCreate方法中绑定是因为同一个手机中没法同时点击打开两个app，若是在onCreate中绑定的话，就会
+            在发送消息的方法里判断app2的服务有没有连接上，没连接上的话就去连接绑定，之所以没有也在
+			onCreate方法中绑定是因为同一个手机中没法同时点击打开两个app，若是在onCreate中绑定的话，就会
 			找不到服务，导致绑定失败，因为app2还没启动，同样其服务也没启动，所以是连接不成功的；可能有人
 			会问，为什么不先把app2启动？如果先把app2启动的话，app1启动时确实可以连接上app2的服务，并且
 			app1的接受消息的服务也绑定成功，app1算是没问题了，但是app2呢，app2是没有连接上app1的服务的，
